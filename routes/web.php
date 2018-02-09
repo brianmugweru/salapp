@@ -11,10 +11,30 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/*
+ * HOME ROUTES
+ */
+Route::get('/', 'HomeController@index')->name('home');
 
-Auth::routes();
+/* 
+ * REGISTRATION ROUTES
+ *
+ */
+Route::get('/auth/register','RegistrationController@create')->name('register');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/auth/register', 'RegistrationController@store')->name('register');
+
+/*
+ * SESSION ROUTES
+ *
+ */
+Route::get('/auth/login','SessionController@create')->name('login');
+
+Route::post('/auth/login', 'SessionController@authenticate')->name('login');
+
+Route::get('/auth/logout', 'SessionController@destroy')->name('logout');
+
+Route::get('/password/reset', 'SessionController@passwordreset')->name('password.request');
+
+Route::post('/password/email', 'SessionController@sendresetlink')->name('password.email');
+
