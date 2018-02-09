@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class SalonController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Create a new controller instance for authentication middleware.
      *
      * @return void
      */
