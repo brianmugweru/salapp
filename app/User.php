@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','role'
     ];
 
     /**
@@ -30,4 +30,10 @@ class User extends Authenticatable
     public function salon(){
         return $this->hasMany('App\Salon');
     }
+
+    public static $rules = [
+        'name' => 'required',
+        'email'=>'required|email',
+        'password'=>'required|confirmed'
+    ];
 }
