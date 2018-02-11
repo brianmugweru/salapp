@@ -49,7 +49,7 @@ Route::post('/password/email', 'SessionController@sendresetlink')->name('passwor
 Route::group(['middleware' => 'issalon'], function(){
     Route::resource('salon', 'SalonController');
 
-    Route::resource('style', 'SalonController');
+    Route::resource('style', 'StyleController', ['parameters' => ['salon'=>'salon_id']]);
 
-    Route::resource('service', 'SalonController');
+    Route::resource('service', 'ServiceController', ['parameters' => ['salon'=>'salon_id']]);
 });
