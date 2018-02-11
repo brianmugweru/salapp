@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 use App\User;
 
@@ -25,7 +24,7 @@ class RegistrationController extends Controller
     public function store(Request $request)
     {
         //Validate the user
-        $this->validate(request(),User::$rules);
+        $errors = $request->validate(User::$rules);
 
         //Create  and save the user
         $user = User::create([
