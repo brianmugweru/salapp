@@ -26,7 +26,9 @@ class SalonController extends Controller
      */
     public function index()
     {
-        //
+        $salons = Salon::where('user_id', \Auth::User()->id)->get();
+
+        return view('salon.index',compact('salons'));
     }
 
     /**
@@ -36,7 +38,7 @@ class SalonController extends Controller
      */
     public function create()
     {
-        //
+        return view('salon.new');
     }
 
     /**
@@ -47,7 +49,36 @@ class SalonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate(request(),[
+
+            'name'=>'required',
+
+            'longitude'=>'required',
+
+            'latitude'=>'required',
+
+            'image'=>'required',
+        ]);
+        
+        Salon::create([
+
+            'name'=> $request->get('name'),
+
+            'longitude'=> $request->get('longitude'),
+
+            'latitude' => $request->get('latitude'),
+
+            'opening_time'=>date('H:i:s', strtotime($request->get('opening_time'))),
+
+            'closing_time'=>date('H:i:s', strtotime($request->get('closing_time'))),
+
+            'image'=>$request->file('image')->store('public/salons'),
+
+            'user_id'=>auth()->user()->id
+        ]);
+
+        return redirect('/salon');
+        
     }
 
     /**
@@ -58,7 +89,7 @@ class SalonController extends Controller
      */
     public function show(Salon $salon)
     {
-        //
+        return view('salon.show')->withSalon($salon);
     }
 
     /**
@@ -69,7 +100,7 @@ class SalonController extends Controller
      */
     public function edit(Salon $salon)
     {
-        //
+        return view('salon.edit')->withSalon($salon);
     }
 
     /**
@@ -81,7 +112,24 @@ class SalonController extends Controller
      */
     public function update(Request $request, Salon $salon)
     {
-        //
+        $salon = Salon::find($salon->id);
+
+        if($request->name) $salon->name = $request->name;
+
+        if($request->longitude) $salon->longitude = $request->longitude;
+
+        if($request->latitude) $salon->latitude = $request->latitude;
+
+        if($request->opening_time) $salon->opening_time = date('H:i:s', strtotime($request->get('opening_time')));
+
+        if($request->closing_time) $salon->closing_time = date('H:i:s', strtotime($request->get('closing_time')));
+
+        if($request->file('image')) $salon->image = $request->file('image')->store('public/salon');
+
+        $salon->save();
+
+        return redirect('/salon');
+
     }
 
     /**
@@ -92,6 +140,8 @@ class SalonController extends Controller
      */
     public function destroy(Salon $salon)
     {
-        //
+        $salon->delete();
+
+        return redirect('/salon');
     }
 }
