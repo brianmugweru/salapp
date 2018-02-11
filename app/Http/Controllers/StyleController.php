@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Style;
+use App\Salon;
 use Illuminate\Http\Request;
 
 class StyleController extends Controller
@@ -24,9 +25,11 @@ class StyleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Salon $salon)
     {
-        //
+        $styles = Style::where('salon_id', $salon)->get();
+
+        return view('style.index', compact('styles'));
     }
 
     /**
@@ -36,7 +39,7 @@ class StyleController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
