@@ -8,13 +8,18 @@ use App\User;
 
 class SessionController extends Controller
 {
-    /*
-     * MIDDLEWARE TO PREVENT LOGGED IN USERS FROM VIEWING LOGIN PAGE
+    /**
+     * Create a new controller instance for guest middleware view login page.
+     *
+     * @return void
+     *
      */
     public function __construct()
     {
         $this->middleware('guest',['except'=>'destroy']);
     }
+
+
     /*
      * CONTROLLER TO RENDER LOGIN TEMPLATE
      *
@@ -31,20 +36,23 @@ class SessionController extends Controller
      */
     public function authenticate()
     {
+        $this -> validate(request(), User::$sessionrules);
+
         if(\Auth::attempt(request(['email','password'])))
         {
-            if(\Auth::user('role') == "salon")
+            if(\Auth::user()->role == "salon")
             {
-                return redirect()->home();
+                return redirect('/salon');
             }
-            else if(\Auth::User('role') == "normal")
+            else if(\Auth::User()->role == "normal")
             {
                 return redirect()->home();
             }
         }
-        else{
+        else
+        {
             return back()->withErrors([
-                'message'=>'please check your credentials and check again'
+                'message'=>'login failed, check credentials and try again'
             ]);
         }
     }
