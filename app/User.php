@@ -36,4 +36,13 @@ class User extends Authenticatable
         'email'=>'required|email',
         'password'=>'required|confirmed'
     ];
+
+    public static $sessionrules = [
+        'email'=>'required|email',
+        'password'=>'required'
+    ];
+
+    /*public function addSalon(Salon $salon)
+    {
+    }*/
 }
