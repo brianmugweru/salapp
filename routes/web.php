@@ -11,10 +11,12 @@
 |
 */
 
+
 /*
  * HOME ROUTES
  */
 Route::get('/', 'HomeController@index')->name('home');
+
 
 /* 
  * REGISTRATION ROUTES
@@ -23,6 +25,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/auth/register','RegistrationController@create')->name('register');
 
 Route::post('/auth/register', 'RegistrationController@store')->name('register');
+
 
 /*
  * SESSION ROUTES
@@ -38,3 +41,15 @@ Route::get('/password/reset', 'SessionController@passwordreset')->name('password
 
 Route::post('/password/email', 'SessionController@sendresetlink')->name('password.email');
 
+
+/*
+ * SALON ROUTES WITH ISSALON MIDDLEWARE PROTECTION
+ *
+ */
+Route::group(['middleware' => 'issalon'], function(){
+    Route::resource('salon', 'SalonController');
+
+    Route::resource('style', 'SalonController');
+
+    Route::resource('service', 'SalonController');
+});
