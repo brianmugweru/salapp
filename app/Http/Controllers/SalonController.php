@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Salon;
+use App\User;
+
 use Illuminate\Http\Request;
 
 class SalonController extends Controller
@@ -49,6 +51,10 @@ class SalonController extends Controller
      */
     public function store(Request $request)
     {
+        /* 
+         * DOES NOT REQUIRE REQUEST OBJECT BEING PASSED INTO THE PARAMETERS WHEN BEING USED
+         * return request();
+         */
         $this->validate(request(),[
 
             'name'=>'required',
@@ -59,23 +65,22 @@ class SalonController extends Controller
 
             'image'=>'required',
         ]);
-        
-        Salon::create([
 
-            'name'=> $request->get('name'),
+       Auth()->User()->addSalon(new Salon([
 
-            'longitude'=> $request->get('longitude'),
+            'name'=>$request->name,
 
-            'latitude' => $request->get('latitude'),
+            'longitude'=>$request->longitude,
 
-            'opening_time'=>date('H:i:s', strtotime($request->get('opening_time'))),
+            'latitude'=>$request->latitude,
 
-            'closing_time'=>date('H:i:s', strtotime($request->get('closing_time'))),
+            'opening_time'=>date('H:i:s', strtotime($request->opening_time)),
 
-            'image'=>$request->file('image')->store('public/salons'),
+            'closing_time'=>date('H:i:s', strtotime($request->closing_time)),
 
-            'user_id'=>auth()->user()->id
-        ]);
+            'image'=>$request->file('image')->store('public/salons')
+
+        ]));
 
         return redirect('/salon');
         
