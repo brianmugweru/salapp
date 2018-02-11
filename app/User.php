@@ -42,7 +42,8 @@ class User extends Authenticatable
         'password'=>'required'
     ];
 
-    /*public function addSalon(Salon $salon)
+    public function addSalon(Salon $salon)
     {
-    }*/
+        $this->salon()->save($salon);
+    }
 }
