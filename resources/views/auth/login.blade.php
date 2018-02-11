@@ -6,8 +6,14 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
-
                 <div class="panel-body">
+                    <div class="form-group {{ $errors->has('message')? 'has-error':''}}">
+                        @if($errors->has('message'))
+                            <span class="help-block" style="text-align:center">
+                                <strong>{{ $errors->first('message') }}</strong>
+                            </span>
+                        @endif
+                    </div>
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
@@ -15,7 +21,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
