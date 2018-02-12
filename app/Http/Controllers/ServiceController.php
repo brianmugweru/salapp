@@ -24,9 +24,13 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($salon_id)
     {
-        //
+        //Open view page for services belonging to specific salon
+
+        $services = Service::where('salon_id', $salon_id)->get();
+
+        return view('services.service',compact($services));
     }
 
     /**
@@ -36,7 +40,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        //form to add new service to database
     }
 
     /**
@@ -45,9 +49,30 @@ class ServiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $salon_id)
     {
-        //
+        $this->validate(request(),[
+
+            'name' => 'required',
+
+            'time_taken' => 'required',
+
+            'image' => 'required'
+        ]);
+
+        $service = new Service;
+
+        $service -> name = $request->name;
+
+        $service -> time_taken = $request -> time_taken;
+
+        $service -> image = $request -> file('image') -> store('public/services');
+
+        $service -> salon_id = $salon_id;
+
+        $service -> save();
+
+        return redirect('/salon/'.$salon_id.'/services');
     }
 
     /**
@@ -58,7 +83,9 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        //
+        //Return view to show single service 
+        
+        return view('service.show', compact($service));
     }
 
     /**
@@ -69,7 +96,9 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        //
+        //Return view to edit service
+
+        return  view('service.edit', compact($service));
     }
 
     /**
@@ -79,9 +108,19 @@ class ServiceController extends Controller
      * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Service $service)
+    public function update(Request $request, Service $service, $salon_id)
     {
-        //
+        $service = Service::find($service->id);
+
+        if($request -> name) $service->name = $request->name;
+
+        if($request -> time_taken) $service -> time_taken = $request -> time_taken;
+
+        if($request -> file('image')) $service -> image = $request -> file('image') -> store('public/services');
+
+        $service -> save();
+
+        return redirect('/salon/'.$salon_id.'/services');
     }
 
     /**
@@ -93,5 +132,8 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         //
+        $service -> delete();
+
+        return redirect('/services'.$service_id.'/services');
     }
 }

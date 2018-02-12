@@ -25,11 +25,11 @@ class StyleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Salon $salon)
+    public function index($salon_id)
     {
-        $styles = Style::where('salon_id', $salon)->get();
+        $styles = Style::where('salon_id', $salon_id)->get();
 
-        return view('style.index', compact('styles'));
+        return view('styles.style', compact($styles));
     }
 
     /**
@@ -39,6 +39,7 @@ class StyleController extends Controller
      */
     public function create()
     {
+        //form to add new styel to database
 
     }
 
@@ -48,9 +49,33 @@ class StyleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$salon_id)
     {
-        //
+        // validate request body and store to db
+        
+        $this->validate(request(),[
+
+            'name'=>'required',
+
+            'time_taken' => 'required',
+
+            'image' => 'required'
+        ]);
+
+        $style = new Style;
+
+        $style -> name = $request->name;
+
+        $style -> time_taken = $request->time_taken;
+
+        $style -> image = $request->file('image')->store('public/styles');
+
+        $style -> salon_id = $salon_id;
+
+        $style -> save();
+        
+        return redirect('/salon/'.$salon_id.'/styles');
+
     }
 
     /**
@@ -61,7 +86,7 @@ class StyleController extends Controller
      */
     public function show(Style $style)
     {
-        //
+        return view('style.show',compact($style))
     }
 
     /**
@@ -72,7 +97,9 @@ class StyleController extends Controller
      */
     public function edit(Style $style)
     {
-        //
+        //get edit page for style
+        
+        return view('style.edit', compact($style));
     }
 
     /**
@@ -82,9 +109,21 @@ class StyleController extends Controller
      * @param  \App\Style  $style
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Style $style)
+    public function update(Request $request, Style $style, $salon_id)
     {
-        //
+        //update specific style in database
+        $style = Style::find($sytle->id);
+
+        if($request -> name) $style -> name = $request -> name;
+
+        if($request -> time_taken) $style -> time_taken = $request -> time_taken;
+
+        if($request -> file('image')) $style -> image = $request -> file('image') -> store('public/styles');
+
+        $style -> save();
+
+        return redirect('/salon/'.$salon_id.'/styles');
+
     }
 
     /**
@@ -93,8 +132,11 @@ class StyleController extends Controller
      * @param  \App\Style  $style
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Style $style)
+    public function destroy(Style $style, $salon_id)
     {
-        //
+        //delete style from database
+        $style -> delete();
+
+        return redirect('/salon/'.$salon_id.'/styles');
     }
 }
