@@ -47,9 +47,14 @@ Route::post('/password/email', 'SessionController@sendresetlink')->name('passwor
  *
  */
 Route::group(['middleware' => 'issalon'], function(){
+
     Route::resource('salon', 'SalonController');
 
-    Route::resource('style', 'StyleController', ['parameters' => ['salon'=>'salon_id']]);
+    Route::get('/styles/{salon_id}', 'StyleController@getStyles');
 
-    Route::resource('service', 'ServiceController', ['parameters' => ['salon'=>'salon_id']]);
+    Route::resource('/style/', 'StyleController');
+
+    Route::get('/services/{salon_id}', 'StyleController@getStyles');
+
+    Route::resource('/service/', 'ServiceController');
 });
