@@ -27,9 +27,14 @@ class StyleController extends Controller
      */
     public function index($salon_id)
     {
+        return view('styles.style');
+    }
+
+    public function getStyles($salon_id)
+    {
         $styles = Style::where('salon_id', $salon_id)->get();
 
-        return view('styles.style', compact($styles));
+        return response()->json($styles);
     }
 
     /**
@@ -39,7 +44,7 @@ class StyleController extends Controller
      */
     public function create()
     {
-        //form to add new styel to database
+        //form to add new style to database
 
     }
 
@@ -49,32 +54,41 @@ class StyleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$salon_id)
+    public function store(Request $request)
     {
         // validate request body and store to db
         
-        $this->validate(request(),[
+        $errors = $this->validate(request(),[
 
             'name'=>'required',
 
-            'time_taken' => 'required',
+            'timetaken' => 'required',
 
-            'image' => 'required'
+            'salon_id' => 'required'
+
         ]);
+        if($request->hasFile('image')){
 
-        $style = new Style;
+            $style = new Style([
 
-        $style -> name = $request->name;
+                'name' => $request->name,
 
-        $style -> time_taken = $request->time_taken;
+                'time_taken' => $request->timetaken,
 
-        $style -> image = $request->file('image')->store('public/styles');
+                'image' => $request->file('image')->store('public/styles'),
 
-        $style -> salon_id = $salon_id;
+                'salon_id' => $request->salon_id
 
-        $style -> save();
-        
-        return redirect('/salon/'.$salon_id.'/styles');
+            ]);
+
+            if($style->save()){
+                return response()->json($style);
+            }
+        }else{
+            return response() -> json('err', 'request has no file');
+        }
+
+        //return redirect('/salon/'.$salon_id.'/styles');
 
     }
 
@@ -86,7 +100,7 @@ class StyleController extends Controller
      */
     public function show(Style $style)
     {
-        return view('style.show',compact($style))
+        return view('style.show',compact($style));
     }
 
     /**
