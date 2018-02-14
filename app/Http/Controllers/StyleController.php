@@ -109,11 +109,13 @@ class StyleController extends Controller
      * @param  \App\Style  $style
      * @return \Illuminate\Http\Response
      */
-    public function edit(Style $style)
+    public function edit($id)
     {
         //get edit page for style
         
-        return view('style.edit', compact($style));
+        $style = Style::where('id', $id)->get();
+
+        return response()->json($style);
     }
 
     /**
@@ -123,10 +125,10 @@ class StyleController extends Controller
      * @param  \App\Style  $style
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Style $style, $salon_id)
+    public function update(Request $request, $id)
     {
         //update specific style in database
-        $style = Style::find($sytle->id);
+        $style = Style::find($id);
 
         if($request -> name) $style -> name = $request -> name;
 
@@ -136,7 +138,8 @@ class StyleController extends Controller
 
         $style -> save();
 
-        return redirect('/salon/'.$salon_id.'/styles');
+        //return redirect('/salon/'.$salon_id.'/styles');
+        return response()->json($style);
 
     }
 
@@ -146,11 +149,13 @@ class StyleController extends Controller
      * @param  \App\Style  $style
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Style $style, $salon_id)
+    public function destroy($id)
     {
         //delete style from database
+        $style = Style::find($id);
+
         $style -> delete();
 
-        return redirect('/salon/'.$salon_id.'/styles');
+        return response()->json('successfully deleted');
     }
 }
