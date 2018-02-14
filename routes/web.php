@@ -50,7 +50,15 @@ Route::group(['middleware' => 'issalon'], function(){
 
     Route::resource('salon', 'SalonController');
 
-    Route::get('/styles/{salon_id}', 'StyleController@getStyles');
+    Route::get('/styles/{salon_id}', 'StyleController@index');
+
+    Route::get('/styles/{salon_id}/get', 'StyleController@getStyles');
+
+    Route::get('/style/{id}/edit', 'StyleController@edit');
+
+    Route::post('/style/{id}/update', 'StyleController@update');
+
+    Route::post('/style/{id}/delete', 'StyleController@destroy');
 
     Route::resource('/style/', 'StyleController');
 
