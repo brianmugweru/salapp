@@ -11,9 +11,9 @@ class EditStyle extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount(){
-        axios.get(`http://localhost:8000/style/${this.props.params.id}/edit`)
+        axios.get(`http://localhost:8000/style/${this.props.params.styleid}/edit`)
             .then(response=>{
-                this.setState({name:response.data.name,time_taken:response.data.time_taken});
+                this.setState({name:response.data[0].name,time_taken:response.data[0].time_taken});
             }).catch(err=>{
                 console.log(err);
             });
@@ -31,9 +31,10 @@ class EditStyle extends Component{
             name: this.state.name,
             time_taken: this.state.time_taken
         }
-        let uri = 'http://localhost:8000/style/'+this.props.params.id;
-        axios.patch(uri, product).then(response=>{
-            this.props.history.push('/view-style');
+        let uri = 'http://localhost:8000/style/'+this.props.params.styleid+'/update/';
+        let styleuri = '/styles/'+this.props.params.salonid;
+        axios.post(uri, style).then(response=>{
+            this.props.history.push(styleuri);
         });
     }
 
