@@ -26,10 +26,10 @@ import EditStyle from './components/EditStyle';
 if (document.getElementById('example')) {
     render(
         <Router history={browserHistory}>
-            <Route path="/style/:id" component={Example}>
-                <Route path={"/style/edit/:id/"} component={EditStyle} />
-                <Route path={"/style/:id/add-style"} component={CreateStyle} />
-                <Route path={"/style/:id/view-styles"} component={ViewStyles} />
+            <Route path="/styles/:id" component={Example}>
+                <Route path={"/styles/edit/:styleid/:salonid"} component={EditStyle} />
+                <Route path={"/styles/:id/add-style"} component={CreateStyle} />
+                <Route path={"/styles/:id/view-styles"} component={ViewStyles} />
             </Route>
         </Router>,
         document.getElementById('example'));
