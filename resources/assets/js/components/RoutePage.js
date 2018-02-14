@@ -10,8 +10,8 @@ class RoutePage extends Component{
         }
         return(
             <div>
-                <span> <Link to={"/style/"+this.props.params.id+"/view-styles"}>View Styles</Link></span>/
-                <span> <Link to={"/style/"+this.props.params.id+"/add-style"}>Add Styles</Link></span>
+                <span> <Link to={"/styles/"+this.props.params.id+"/view-styles"}>View Styles</Link></span>/
+                <span> <Link to={"/styles/"+this.props.params.id+"/add-style"}>Add Styles</Link></span>
             </div>
         );
     }
