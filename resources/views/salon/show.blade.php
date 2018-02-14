@@ -21,7 +21,7 @@
                         <p>Closing time:<strong>  {{ $salon->closing_time }}</strong></p>
                         <p>latitude: <strong> {{ $salon->latitude }}</strong></p>
                         <p>longitude: <strong> {{ $salon->longitude }}</strong></p>
-                        <p><a href="/style/{{ $salon->id }}">View Styles</a></p>
+                        <p><a href="/styles/{{ $salon->id }}">View Styles</a></p>
                         <p><a href="/service/{{ $salon->id }}">View Services</a></p>
                     </div>
                 </div>

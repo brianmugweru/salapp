@@ -10,7 +10,7 @@ class ViewStyles extends Component {
     }
 
     componentDidMount(){
-        axios.get("http://localhost:8000/styles/"+this.props.params.id)
+        axios.get("http://localhost:8000/styles/"+this.props.params.id+"/get")
             .then(response=>{
                 console.log(response.data);
                 this.setState({styles : response.data});
@@ -35,7 +35,7 @@ class ViewStyles extends Component {
                     <tbody>
                         {
                             this.state.styles.map((style, i) => 
-                                <TableRow key= {i} style={style} />
+                                <TableRow key= {i} style={style} params={this.props.params.id} />
                             )
                         }
                     </tbody>
@@ -46,14 +46,40 @@ class ViewStyles extends Component {
 }
 
 class TableRow extends Component{
+    constructor(props){
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    componentDidMount(){
+        this.setState({_method:'PUT'});
+    }
+    handleChange1(e){
+        this.setState({ method:e.target.value});
+    }
+    handleSubmit(e){
+        e.preventDefault();
+        let uri = `http://localhost:8000/style/${this.props.style.id}/delete`;
+        let reduri = '/styles/'+this.props.params;
+        let style = {
+            _method:this.state.method
+        }
+        axios.post(uri,style).then(response=>{
+            browserHistory.push(reduri);
+        });
+    }
     render(){
         return(
             <tr>
                 <td>{this.props.style.id }</td>
                 <td>{this.props.style.name }</td>
                 <td>{this.props.style.time_taken }</td>
-                <td><Link to={"/style/edit/"+this.props.style.id+"/"}>Edit</Link></td>
-                <td><button className="btn btn-danger btn-sm">Delete</button></td>
+                <td><Link to={"/styles/edit/"+this.props.style.id+"/"+this.props.params}>Edit</Link></td>
+                <td>
+                    <form onSubmit={this.handleSubmit}>
+                        <input type="hidden" name="_method" value="PUT"/>
+                        <input type="submit" value="Delete" className="btn btn-danger btn-sm"/>
+                    </form>
+                </td>
             </tr>
         );
     }
