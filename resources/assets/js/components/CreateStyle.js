@@ -30,7 +30,7 @@ class CreateStyle extends Component {
     }
     handleChange4(e){
         this.setState({
-            salon_id : this.state.params.id
+            salon_id : e.target.value
         });
     }
     handleSubmit(e){
@@ -44,7 +44,7 @@ class CreateStyle extends Component {
             name: this.state.styleName,
             timetaken: this.state.styleTimeTaken,
             image: this.state.styleImage,
-            salon_id: this.state.salon_id
+            salon_id: this.props.params.id
         }
         console.log(style);
         var data = new FormData();
@@ -85,7 +85,7 @@ class CreateStyle extends Component {
                             <div className="form-group">
                                 <label>Time Taken: </label>
                                 <input type="text" className="form-control" onChange={this.handleChange3}/>
-                                <input type="hidden" className="form-control" onChange={this.handleChange4}/>
+                                <input type="hidden" className="form-control" onChange={this.handleChange4} value={this.props.params.id}/>
                             </div>
                         </div>
                     </div><br/>
