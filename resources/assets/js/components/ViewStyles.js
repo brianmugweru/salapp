@@ -26,6 +26,7 @@ class ViewStyles extends Component {
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>image</th>
                             <th>Name</th>
                             <th>Time Taken</th>
                             <th>edit</th>
@@ -71,6 +72,7 @@ class TableRow extends Component{
         return(
             <tr>
                 <td>{this.props.style.id }</td>
+                <td><img src={`http://localhost:8000/${this.props.style.image}`} /></td>
                 <td>{this.props.style.name }</td>
                 <td>{this.props.style.time_taken }</td>
                 <td><Link to={"/styles/edit/"+this.props.style.id+"/"+this.props.params}>Edit</Link></td>

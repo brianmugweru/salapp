@@ -41,7 +41,7 @@ class EditStyle extends Component{
     render(){
         return(
             <div>
-                <h1>Update Item</h1>
+                <h1>Update Style</h1>
                 <form onSubmit = {this.handleSubmit}>
                     <div className = "form-group">
                         <label>Style Name</label>

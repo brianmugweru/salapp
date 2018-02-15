@@ -46,7 +46,6 @@ class CreateStyle extends Component {
             image: this.state.styleImage,
             salon_id: this.props.params.id
         }
-        console.log(style);
         var data = new FormData();
         data.append('name', style.name);
         data.append('timetaken', style.timetaken);
@@ -57,7 +56,7 @@ class CreateStyle extends Component {
 
         axios.post(uri, data).then((response)=>{
             console.log(response.data);
-            browserHistory.push('/style/'+this.props.params.id+'/view-style');
+            browserHistory.push('/styles/'+this.props.params.id+"/");
         });
     }
     render(){
@@ -85,7 +84,6 @@ class CreateStyle extends Component {
                             <div className="form-group">
                                 <label>Time Taken: </label>
                                 <input type="text" className="form-control" onChange={this.handleChange3}/>
-                                <input type="hidden" className="form-control" onChange={this.handleChange4} value={this.props.params.id}/>
                             </div>
                         </div>
                     </div><br/>
