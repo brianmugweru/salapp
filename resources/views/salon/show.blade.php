@@ -22,7 +22,7 @@
                         <p>latitude: <strong> {{ $salon->latitude }}</strong></p>
                         <p>longitude: <strong> {{ $salon->longitude }}</strong></p>
                         <p><a href="/styles/{{ $salon->id }}">View Styles</a></p>
-                        <p><a href="/service/{{ $salon->id }}">View Services</a></p>
+                        <p><a href="/services/{{ $salon->id }}">View Services</a></p>
                     </div>
                 </div>
             </div>
