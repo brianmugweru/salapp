@@ -3,8 +3,7 @@
 /*
 |--------------------------------------------------------------------------
 | Web Routes
-|--------------------------------------------------------------------------
-|
+|-------------------------------------------------------------------------- |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
@@ -62,7 +61,15 @@ Route::group(['middleware' => 'issalon'], function(){
 
     Route::resource('/style/', 'StyleController');
 
-    Route::get('/services/{salon_id}', 'StyleController@getStyles');
+    Route::get('/services/{salon_id}', 'ServiceController@index');
+
+    Route::get('/services/{salon_id}/get', 'ServiceController@getServices');
+
+    Route::get('/service/{id}/edit', 'ServiceController@edit');
+
+    Route::post('/service/{id}/update', 'ServiceController@update');
+
+    Route::post('/service/{id}/delete', 'ServiceController@destroy');
 
     Route::resource('/service/', 'ServiceController');
 });
