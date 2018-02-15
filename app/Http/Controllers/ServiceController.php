@@ -27,10 +27,14 @@ class ServiceController extends Controller
     public function index($salon_id)
     {
         //Open view page for services belonging to specific salon
+        return view('services.service');
+    }
 
+    public function getServices($salon_id)
+    {
         $services = Service::where('salon_id', $salon_id)->get();
 
-        return view('services.service',compact($services));
+        return response()->json($services);
     }
 
     /**
@@ -49,9 +53,9 @@ class ServiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $salon_id)
+    public function store(Request $request)
     {
-        $this->validate(request(),[
+        $errors = $this->validate(request(),[
 
             'name' => 'required',
 
@@ -60,19 +64,28 @@ class ServiceController extends Controller
             'image' => 'required'
         ]);
 
-        $service = new Service;
+        if($request->hasFile('image')){
 
-        $service -> name = $request->name;
+            $service = new Service([
 
-        $service -> time_taken = $request -> time_taken;
+                'name' => $request->name,
 
-        $service -> image = $request -> file('image') -> store('public/services');
+                'time_taken' => $request -> time_taken,
 
-        $service -> salon_id = $salon_id;
+                'image' => $request -> file('image') -> store('public/services'),
 
-        $service -> save();
+                'salon_id' => $request->salon_id
 
-        return redirect('/salon/'.$salon_id.'/services');
+            ]);
+
+            if($service -> save()){
+                return response()->json($service);
+            }
+        }else{
+            return response()->json('err', 'request has no file');
+        }
+
+        //return redirect('/salon/'.$salon_id.'/services');
     }
 
     /**
@@ -94,11 +107,13 @@ class ServiceController extends Controller
      * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function edit(Service $service)
+    public function edit($id)
     {
         //Return view to edit service
 
-        return  view('service.edit', compact($service));
+        $service = Service::where('id',$id)->get();
+
+        return response()->json($service);
     }
 
     /**
@@ -108,9 +123,9 @@ class ServiceController extends Controller
      * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Service $service, $salon_id)
+    public function update(Request $request, $id)
     {
-        $service = Service::find($service->id);
+        $service = Service::find($id);
 
         if($request -> name) $service->name = $request->name;
 
@@ -120,7 +135,8 @@ class ServiceController extends Controller
 
         $service -> save();
 
-        return redirect('/salon/'.$salon_id.'/services');
+        //return redirect('/salon/'.$salon_id.'/services');
+        return response()->json($service);
     }
 
     /**
@@ -129,11 +145,14 @@ class ServiceController extends Controller
      * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function destroy($id)
     {
-        //
+        // delete service from database
+
+        $service = Service::find($id);
+
         $service -> delete();
 
-        return redirect('/services'.$service_id.'/services');
+        return response()->json('successfully deleted');
     }
 }
