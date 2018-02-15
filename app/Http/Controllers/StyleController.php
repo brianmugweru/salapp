@@ -113,7 +113,7 @@ class StyleController extends Controller
     {
         //get edit page for style
         
-        $style = Style::where('id', $id)->get();
+        $style = Style::where('id',$id)->get();
 
         return response()->json($style);
     }
