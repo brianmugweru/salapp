@@ -8,7 +8,7 @@ class Salon extends Model
 {
 
     protected $fillable = [
-        'name', 'longitude', 'latitude', 'opening_time', 'closing_time', 'image', 'user_id'
+        'name', 'longitude', 'latitude', 'opening_time', 'closing_time', 'image', 'user_id','rank'
     ];
 
     public function styles()
@@ -24,5 +24,20 @@ class Salon extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+    public function addRank()
+    {
+        $this->rank++;
+
+        $this->save();
+    }
+
+    public function reduceRank()
+    {
+        // reduce rank according to scheduler after specific time;
+
+        $this->rank--;
+
+        $this->save();
     }
 }
