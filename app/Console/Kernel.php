@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Salon;
+use App\Console\Commands;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        \App\Console\Commands\Hello::class
     ];
 
     /**
@@ -26,6 +28,15 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        $schedule->call(function(){
+            $salons = Salon::all();
+            foreach($salons as $salon){
+                $salon->reduceRank();
+            }
+        })->everyMinute();
+
+        $schedule->command('Hello')->everyMinute();
     }
 
     /**
