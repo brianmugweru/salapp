@@ -16,6 +16,9 @@
  */
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::get('/salon/{id}/book', 'HomeController@getsalon');
+
+Route::get('/like/{salon_id}/{user_id}', 'HomeController@like');
 
 /* 
  * REGISTRATION ROUTES
