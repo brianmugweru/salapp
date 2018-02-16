@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 use Faker\Generator as Faker;
 
 /*
@@ -18,7 +17,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => bcrypt('pass'), // secret
-        'role' => 'normal',
+        'role' => 'salon',
         'remember_token' => str_random(10),
     ];
 });
+
