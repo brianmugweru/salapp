@@ -13801,6 +13801,11 @@ var ViewStyles = function (_Component) {
     return ViewStyles;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
+function Handleimage(props) {
+    var link = props.link.replace('public', 'storage');
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: link, width: '40', height: '40' });
+}
+
 var TableRow = function (_Component2) {
     _inherits(TableRow, _Component2);
 
@@ -13850,7 +13855,7 @@ var TableRow = function (_Component2) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
                     null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'http://localhost:8000/' + this.props.style.image })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Handleimage, { link: 'http://localhost:8000/' + this.props.style.image })
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'td',
