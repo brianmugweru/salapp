@@ -14,17 +14,17 @@ class CreateLikesTable extends Migration
     public function up()
     {
         Schema::create('likes', function (Blueprint $table) {
-            $table->increments('id');
-
             $table->integer('user_id')->unsigned();
+
+            $table->integer('salon_id')->unsigned();
+
+            $table->primary(['user_id','salon_id']);
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
-
-            $table->integer('salon_id')->unsigned();
 
             $table->foreign('salon_id')
                 ->references('id')
@@ -34,6 +34,7 @@ class CreateLikesTable extends Migration
 
             $table->timestamps();
         });
+        //DB::unprepared('ALTER TABLE `likes` DROP PRIMARY KEY, ADD PRIMARY KEY (`user_id`, `salon_id`)');
     }
 
     /**
