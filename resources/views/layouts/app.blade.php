@@ -79,7 +79,7 @@
     </div>
 
     <!-- Scripts -->
-    <!--<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
