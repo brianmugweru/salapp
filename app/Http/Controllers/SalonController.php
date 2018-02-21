@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Salon;
 use App\User;
+use Illuminate\Support\Facades\Gate;
 
 use Illuminate\Http\Request;
 
@@ -94,7 +95,12 @@ class SalonController extends Controller
      */
     public function show(Salon $salon)
     {
-        return view('salon.show')->withSalon($salon);
+        if(Gate::allows('view-salon', $salon))
+        {
+            return view('salon.show')->withSalon($salon);
+        }else{
+            return redirect('/salon');
+        }
     }
 
     /**
@@ -105,7 +111,12 @@ class SalonController extends Controller
      */
     public function edit(Salon $salon)
     {
-        return view('salon.edit')->withSalon($salon);
+        if(Gate::allows('view-salon', $salon))
+        {
+            return view('salon.edit')->withSalon($salon);
+        }else{
+            return redirect('/salon');
+        }
     }
 
     /**
