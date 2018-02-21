@@ -20,8 +20,8 @@
                             <input type="text" class="form-control" name="name" placeholder="Enter Salon Name"><br>
                             <input type="text" class="form-control" name="longitude" placeholder="Enter Longitude"><br>
                             <input type="text" class="form-control" name="latitude" placeholder="Enter Latitude"><br>
-                            <input type="text" class="form-control" name="opening_time" placeholder="Enter opening time"><br>
-                            <input type="text" class="form-control" name="closing_time" placeholder="Enter closing time"><br>
+                            <input type="text" class="form-control" placeholder="Enter starting time" id="weekdaystart" name="opening_time"/><br>
+                            <input type="text" class="form-control" placeholder="Enter Closing time" id="weekdayend" name="closing_time"/><br>
                             <input type="file" class="form-control" name="image"><br>
                             <input type="submit" name="submit" value="Add Salon" class="btn btn-success">
                         </form>
@@ -31,4 +31,7 @@
         </div>
     </div>
 </div>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/jquery.timepicker.min.js') }}"></script>
+@include('partials.timescript')
 @endsection
