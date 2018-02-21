@@ -25,6 +25,10 @@ class Salon extends Model
     {
         return $this->belongsTo('App\User');
     }
+    public function likes()
+    {
+        return $this->hasMany('App\Like');
+    }
     public function addRank()
     {
         $this->rank++;
@@ -36,8 +40,17 @@ class Salon extends Model
     {
         // reduce rank according to scheduler after specific time;
 
-        $this->rank--;
+        if($this->rank != 0)
+        {
+            $this->rank--;
 
-        $this->save();
+            $this->save();
+        }
+        else
+        {
+            $this->rank = 0;
+
+            $this->save();
+        }
     }
 }
