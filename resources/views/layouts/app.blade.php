@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 </head>
 <body>
     <div id="app">
@@ -53,6 +54,9 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a href="{{ url('liked/salons') }}">My Salons</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -75,6 +79,7 @@
     </div>
 
     <!-- Scripts -->
+    <!--<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>-->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
