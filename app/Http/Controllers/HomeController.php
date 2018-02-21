@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Salon;
 
 use App\User;
+
 use App\Like;
+
+use App\Style;
 
 class HomeController extends Controller
 {
@@ -16,9 +19,17 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    { 
+        $this->middleware('auth')->only('getlikedsalons');
+    }
+
     public function index()
     {
-        $salons = Salon::all();
+        $salons = Salon::orderBy('rank','desc')
+            ->take(4)
+            ->get();
 
         return view('welcome')->withSalons($salons);
     }
@@ -46,7 +57,19 @@ class HomeController extends Controller
 
         $like -> save();
 
-        return redirect('/salon/2/book');
+        return redirect('/salon/'.$salon_id.'/book');
+    }
 
+    public function getlikedsalons()
+    {
+        //$likes = Like::all();
+        $likes = Like::where('user_id', auth()->user()->id)->get();
+        return view('liked')->withLikes($likes);
+    }
+    public function getstyle()
+    {
+        $styles = Style::all();
+
+        return view('styles')->withStyles($styles);
     }
 }
