@@ -15,7 +15,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\Hello::class
     ];
 
     /**
@@ -30,13 +29,14 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->call(function(){
+
             $salons = Salon::all();
-            foreach($salons as $salon){
+
+            foreach($salons as $salon)
+            {
                 $salon->reduceRank();
             }
-        })->everyMinute();
-
-        $schedule->command('Hello')->everyMinute();
+        })->everyFiveMinutes();
     }
 
     /**
