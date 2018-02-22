@@ -28,6 +28,10 @@ class CreateBookingsTable extends Migration
                 ->references('id')
                 ->on('salons');
 
+            $table->dateTime('time');
+
+            $table->string('style');
+
             $table->timestamps();
         });
     }
