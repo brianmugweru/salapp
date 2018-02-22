@@ -26,11 +26,12 @@
                                 <p>latitude: <strong> {{ $salon->latitude }}</strong></p>
                                 <p>longitude: <strong> {{ $salon->longitude }}</strong></p>
                                 @auth
-                                    @if ($salon->likes[0]->user_id == auth()->user()->id and $salon->likes[0]->salon_id == $salon->id)
+                                    @if ($salon->likes[0]->salon_id == $salon->id and $salon->likes[0]->user_id == auth()->user()->id)
                                         <p><i class="fa fa-heart"></i>already liked</p>
                                     @else
-                                        <p><a href="/like/{{ $salon->id }}/{{ auth()->user()->id }}">{{ $salon->likes }}</a></p>
+                                        <p><a href="/like/{{ $salon->id }}/{{ auth()->user()->id }}">Like Salon</a></p>
                                     @endif
+                                    <a href="/salon/book/{{$salon->id}}"> book session </a>
                                 @endauth
 
                             </div>
