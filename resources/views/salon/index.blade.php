@@ -1,5 +1,24 @@
 @extends('layouts.app')
 
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAi78hhiakcf_eT1sVJP0Vx3nHM1eI-TjI"></script>
+
+<script type="text/javascript">
+    function geocode(lat, lng, salon_id){
+        var latlng = new google.maps.LatLng(lat, lng);
+
+        var geocoder = new google.maps.Geocoder;
+
+        geocoder.geocode({'location': latlng}, function(results, status){
+            if(status == google.maps.GeocoderStatus.OK){
+                if(results[0]) {
+                    document.getElementById("locate"+salon_id).innerHTML = results[0].formatted_address;
+                }else{
+                    document.write('quite imposibble');
+                }
+            }
+        });
+    }
+</script>
 @section('content')
 <div class="container">
     <div class="row">
@@ -25,8 +44,9 @@
                         </tr>
                         @foreach ($salons as $salon)
                             <tr>
+                                <script>geocode( {{ $salon->latitude }},{{ $salon->longitude }} , {{ $salon->id }})</script>
                                 <td>{{ $salon->name }}</td>
-                                <td>{{ $salon->longitude }}</td>
+                                <td id="locate{{$salon->id}}"></td>
                                 <td>{{ $salon->opening_time }}</td>
                                 <td>{{ $salon->closing_time }}</td>
                                 <td><img src="{{ Storage::url( $salon->image ) }}" height="50" width="50" alt="found"/></td>
@@ -48,4 +68,5 @@
         </div>
     </div>
 </div>
+@include('partials.geocode')
 @endsection
