@@ -19,9 +19,9 @@ class CreateSalonsTable extends Migration
 
             $table->string('name');
 
-            $table->double('longitude',12,2);
+            $table->double('longitude',12,8);
 
-            $table->double('latitude',12,2);
+            $table->double('latitude',12,8);
 
             $table->time('opening_time');
 
