@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $normal = factory(App\User::class,50)->create(['role'=>'normal']);
 
-        $salon = factory(App\User::class,4)->create()->each(function($u){
-            $u->salon()->save(factory(App\Salon::class,mt_rand(2,5))->create());
+        $salon = factory(App\User::class,6)->create()->each(function($u){
+            $u->salon()->save(factory(App\Salon::class)->make());
         });
 
     }
