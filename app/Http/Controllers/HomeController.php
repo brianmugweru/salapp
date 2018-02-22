@@ -14,18 +14,27 @@ use App\Style;
 
 class HomeController extends Controller
 {
-   /**
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only('getlikedsalons');
+    }
+
+    public function redirect()
+    {
+        return auth()->user()->role == 'salon' ? redirect('/salon') : redirect('/');
+    }
+
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function __construct()
-    { 
-        $this->middleware('auth')->only('getlikedsalons');
-    }
-
-    public function index()
+     public function index()
     {
         $salons = Salon::orderBy('rank','desc')
             ->take(4)
@@ -49,6 +58,7 @@ class HomeController extends Controller
 
         $salon->addRank();
     
+
         $like = new Like;
 
         $like->user_id = $user_id;
@@ -64,8 +74,10 @@ class HomeController extends Controller
     {
         //$likes = Like::all();
         $likes = Like::where('user_id', auth()->user()->id)->get();
+
         return view('liked')->withLikes($likes);
     }
+
     public function getstyle()
     {
         $styles = Style::all();
