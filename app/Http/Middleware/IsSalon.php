@@ -20,6 +20,6 @@ class IsSalon
             return $next($request);
         }
 
-        return redirect()->login();
+        return redirect('/login');
     }
 }
