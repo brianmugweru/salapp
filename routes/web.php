@@ -16,15 +16,19 @@
  */
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/salon/{id}/book', 'HomeController@getsalon');
+Route::get('/salon/{id}/', 'SalonController@get');
 
-Route::get('/like/{salon_id}/{user_id}', 'HomeController@like');
+Route::get('/salon/{id}/like/', 'LikeController@likeSalon');
 
-Route::get('/liked/salons', 'HomeController@getlikedsalons');
+Route::get('/salons/liked', 'LikeController@salons');
 
-Route::get('/styles', 'HomeController@getstyle');
+Route::get('/styles', 'StyleController@get');
 
-Route::get('/salon/book/{id}', 'HomeController@booksalon');
+Route::get('/salon/{id}/book', 'BookingController@create');
+
+Route::post('/salon/{id}/book', 'BookingController@store');
+
+Route::get('/user/bookings', 'BookingController@index');
 
 /*
  * AUTH ROUTES
@@ -32,11 +36,12 @@ Route::get('/salon/book/{id}', 'HomeController@booksalon');
 Auth::routes();
 
 Route::get('/home', 'HomeController@redirect')->name('home');
+
 /*
  * SALON ROUTES WITH ISSALON MIDDLEWARE PROTECTION
  *
  */
-Route::group(['middleware' => 'issalon'], function(){
+Route::middleware(['isSalon'])->prefix('dashboard')->group(function(){
 
     Route::resource('salon', 'SalonController');
 
