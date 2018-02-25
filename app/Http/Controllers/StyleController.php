@@ -16,7 +16,7 @@ class StyleController extends Controller
  
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['get']);
     }
 
 
@@ -54,7 +54,7 @@ class StyleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Salon $salon)
     {
         // validate request body and store to db
         
@@ -80,6 +80,8 @@ class StyleController extends Controller
                 'salon_id' => $request->salon_id
 
             ]);
+
+            //$salon->addStyle(request('name','timetaken','image')); 
 
             if($style->save()){
                 return response()->json($style);
@@ -157,5 +159,12 @@ class StyleController extends Controller
         $style -> delete();
 
         return response()->json('successfully deleted');
+    }
+
+    public function get()
+    {
+        $styles = Style::all();
+
+        return view('styles')->withStyles($styles);
     }
 }
