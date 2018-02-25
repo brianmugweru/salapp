@@ -52,9 +52,9 @@
                                 <td><img src="{{ Storage::url( $salon->image ) }}" height="50" width="50" alt="found"/></td>
                                 <td>{{ $salon->ranking }}</td>
                                 <td>
-                                    <a href="{{ URL::to('/salon/'. $salon->id .'/edit') }}">edit</a><br>
-                                    <a href="{{ URL::to('/salon/'. $salon->id) }}">view</a><br>
-                                    {!! Form::open([ 'method'=>'DELETE','route'=>['salon.destroy', $salon->id]]) !!}
+                                    <a href="{{ URL::to('/dashboard/salon/'. $salon->id .'/edit') }}">edit</a><br>
+                                    <a href="{{ URL::to('/dashboard/salon/'. $salon->id) }}">view</a><br>
+                                    {!! Form::open([ 'method'=>'DELETE','url'=>['/dashboard/salon', $salon->id]]) !!}
                                         {!! Form::submit('Delete',['class'=>'btn btn-danger']) !!}
                                     {!! Form::close() !!}
                                     <!--<a href="{{ URL::to('/salon/'. $salon->id) }}">delete</a>-->
@@ -68,5 +68,4 @@
         </div>
     </div>
 </div>
-@include('partials.geocode')
 @endsection
