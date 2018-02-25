@@ -6,7 +6,7 @@
         <div class="row">
             @foreach($salons as $salon)
             <div class="col-sm-3">
-                <a href="/salon/{{ $salon->id }}/book">
+                <a href="/salon/{{ $salon->id }}">
                     <img src="{{ Storage::url($salon->image) }}" width="100%" height="200">
                     <p style="text-align:left;">{{ $salon->name }}</br> {{ $salon->rank }}</p>
                 </a>
