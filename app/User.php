@@ -27,8 +27,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function salon(){
-        return $this->hasMany('App\Salon');
+    public function salon()
+    {
+        return $this->hasMany(Salon::class);
     }
 
     public static $rules = [

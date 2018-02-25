@@ -11,10 +11,11 @@ class Like extends Model
 
     protected $fillable = ['user_id', 'salon_id'];
 
-    public function salon(){
-        return $this->belongsTo('App\Salon');
+    public function salon()
+    {
+        return $this->belongsTo(Salon::class);
     }
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsToMany(User::class);
     }
 }

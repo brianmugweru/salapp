@@ -13,21 +13,28 @@ class Salon extends Model
 
     public function styles()
     {
-        return $this->hasMany('App\Style');
+        return $this->hasMany(Style::class);
     }
 
     public function services()
     {
-        return $this->hasMany('App\Service');
+        return $this->hasMany(Service::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
     public function likes()
     {
-        return $this->hasMany('App\Like');
+        return $this->hasMany(Like::class);
+    }
+    public function addStyle($style)
+    {
+        $this->styles->create([]);
+    }
+    public function addService($service)
+    {
     }
     public function addRank()
     {

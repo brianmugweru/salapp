@@ -10,6 +10,6 @@ class Style extends Model
         'name', 'time_taken', 'image', 'salon_id'
     ];
     public function salon(){
-        return $this->belongsTo('App\Salon');
+        return $this->belongsTo(Salon::class);
     }
 }
