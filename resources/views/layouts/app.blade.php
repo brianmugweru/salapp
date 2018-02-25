@@ -30,7 +30,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        Salon App
                     </a>
                 </div>
 
@@ -49,7 +49,7 @@
                         @else
                             @if (auth()->user()->role == "salon")
                             <li>
-                                <a href="/salon">Dashboard</a>
+                                <a href="/dashboard/salon">Dashboard</a>
                             </li>
                             @endif
                             <li class="dropdown">
@@ -60,7 +60,8 @@
                                 <ul class="dropdown-menu">
                                     @if (auth()->user()->role == "normal")
                                         <li>
-                                            <a href="{{ url('liked/salons') }}">My Salons</a>
+                                            <a href="{{ url('styles') }}">View Styles</a>
+                                            <a href="{{ url('salons/liked') }}">My Salons</a>
                                         </li>
                                     @else
                                         <li>
