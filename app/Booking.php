@@ -10,11 +10,13 @@ class Booking extends Pivot
 
     protected $fillable = ['user_id', 'salon_id'];
 
-    public function salon(){
-        return $this->belongsTo('App\Salon');
+    public function salon()
+    {
+        return $this->belongsTo(Salon::class);
     }
 
-    public function user(){
-        return $this->belongsTo('App\User');
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
