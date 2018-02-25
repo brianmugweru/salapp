@@ -18,7 +18,7 @@ class SalonController extends Controller
  
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['get']);
     }
 
 
@@ -66,6 +66,7 @@ class SalonController extends Controller
 
             'image'=>'required',
         ]);
+        return request();
 
        Auth()->User()->addSalon(new Salon([
 
@@ -158,6 +159,33 @@ class SalonController extends Controller
     {
         $salon->delete();
 
-        return redirect('/salon');
+        return redirect('/dashboard/salon');
+    }
+
+    public function get($id)
+    {
+        $salon = Salon::find($id);
+
+        return view('single')->withSalon($salon);
+    }
+
+    public function like($id)
+    {
+        $salon = Salon::find($salon_id);
+
+        $user = auth()->user()->id;
+
+        $salon->addRank();
+
+        $like = new Like;
+
+        $like->user_id = $user_id;
+
+        $like->salon_id = $salon_id;
+
+        $like -> save();
+
+        return back;
+
     }
 }
