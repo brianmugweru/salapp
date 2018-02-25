@@ -26,7 +26,7 @@ class HomeController extends Controller
 
     public function redirect()
     {
-        return auth()->user()->role == 'salon' ? redirect('/salon') : redirect('/');
+        return auth()->user()->role == 'salon' ? redirect('/dashboard/salon') : redirect('/');
     }
 
     /**
@@ -41,41 +41,6 @@ class HomeController extends Controller
             ->get();
 
         return view('welcome')->withSalons($salons);
-    }
-
-    public function getsalon($id)
-    {
-        $salon = Salon::find($id);
-
-        return view('single')->withSalon($salon);
-    }
-
-    public function like($salon_id, $user_id)
-    {
-        $salon = Salon::find($salon_id);
-
-        $user = User::find($user_id);
-
-        $salon->addRank();
-    
-
-        $like = new Like;
-
-        $like->user_id = $user_id;
-
-        $like->salon_id = $salon_id;
-
-        $like -> save();
-
-        return redirect('/salon/'.$salon_id.'/book');
-    }
-
-    public function getlikedsalons()
-    {
-        //$likes = Like::all();
-        $likes = Like::where('user_id', auth()->user()->id)->get();
-
-        return view('liked')->withLikes($likes);
     }
 
     public function getstyle()
