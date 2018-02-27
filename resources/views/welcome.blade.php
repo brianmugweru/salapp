@@ -1,8 +1,16 @@
-<!doctype html>
 @extends('layouts.app')
 
 @section('content')
     <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+            <form method="GET" action="/search">
+                {{ csrf_field() }}
+                <input type="text" name="salon" placeholder="enter salon name"/>
+                <input type="submit" class="btn btn-primary" value="search" name="search">
+            </form>
+            </div>
+        </div><br>
         <div class="row">
             @foreach($salons as $salon)
             <div class="col-sm-3">
