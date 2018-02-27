@@ -27,7 +27,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function salon()
+    public function salons()
     {
         return $this->hasMany(Salon::class);
     }
@@ -42,9 +42,4 @@ class User extends Authenticatable
         'email'=>'required|email',
         'password'=>'required'
     ];
-
-    public function addSalon(Salon $salon)
-    {
-        $this->salon()->save($salon);
-    }
 }
