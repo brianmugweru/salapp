@@ -12,4 +12,10 @@ class Style extends Model
     public function salon(){
         return $this->belongsTo(Salon::class);
     }
+    /*protected $appends = [
+        'link'
+    ];
+    public function linkAttribute(){
+        return $this->image;   
+    }*/
 }
