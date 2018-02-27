@@ -8,7 +8,7 @@ class Booking extends Pivot
 {
     public $table = 'bookings';
 
-    protected $fillable = ['user_id', 'salon_id'];
+    protected $fillable = ['user_id', 'salon_id','time','style'];
 
     public function salon()
     {
