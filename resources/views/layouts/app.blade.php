@@ -69,6 +69,12 @@
                                         </li>
                                     @endif
                                     <li>
+                                        <a href="/user/bookings">My Bookings</a>
+                                    </li>
+                                    <li>
+                                        <a href="/profile">My Profile</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
