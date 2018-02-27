@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Salon;
+
+use App\Booking;
+
 class BookingController extends Controller
 {
     /**
@@ -14,7 +18,7 @@ class BookingController extends Controller
  
     public function __construct()
     {
-        $this->middleware('auth')->except(['get']);
+        $this->middleware('auth');
     }
 
     /*
@@ -22,7 +26,10 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::where('user_id', auth()->user()->id)->get();
+        $bookings = Booking::selectRaw('salon_id,count(*) booking')
+            ->groupBy('salon_id')
+            ->where('user_id', auth()->user()->id)
+            ->get();
 
         return view('booking.index', compact('bookings'));
     }
@@ -39,9 +46,23 @@ class BookingController extends Controller
     /*
      * STORES BOOKING FIELDS FROM USER INTO DATABASE
      */
-    public function store(Request $request, $salon_id)
+    public function store(Request $request, Salon $salon)
     {
+        $this->validate(request(),[
+            'style'=>'required',
 
+            'time'=>'required'
+        ]);
+
+        $salon->bookings()->create([
+            'style'=>$request->style,
+
+            'time'=>date('Y-m-d H:i:s', strtotime($request->time)),
+
+            'user_id'=>auth()->id()
+        ]);
+
+        return redirect('/salon/'.$salon->id);
     }
 
 }
