@@ -22,13 +22,19 @@ Route::get('/salon/{id}/like/', 'LikeController@likeSalon');
 
 Route::get('/salons/liked', 'LikeController@salons');
 
-Route::get('/styles', 'StyleController@get');
+Route::get('/search', 'SalonController@search');
 
-Route::get('/salon/{id}/book', 'BookingController@create');
+Route::get('/styles', 'StyleController@getAll');
 
-Route::post('/salon/{id}/book', 'BookingController@store');
+Route::post('/salon/{salon}/book', 'BookingController@store');
 
 Route::get('/user/bookings', 'BookingController@index');
+
+Route::get('/profile', 'ProfileController@index');
+
+Route::get('/profile/update', 'ProfileController@edit');
+
+Route::post('/profile/update/{user}', 'ProfileController@update');
 
 /*
  * AUTH ROUTES
@@ -47,7 +53,7 @@ Route::middleware(['isSalon'])->prefix('dashboard')->group(function(){
 
     Route::get('/styles/{salon_id}', 'StyleController@index');
 
-    Route::get('/styles/{salon_id}/get', 'StyleController@getStyles');
+    Route::get('/styles/{salon_id}/get', 'StyleController@get');
 
     Route::get('/style/{id}/edit', 'StyleController@edit');
 
