@@ -9,8 +9,10 @@
         "fideloper/proxy": "~3.3",
         "jadjoubran/laravel-angular": "^0.4.0",
         "laravel/framework": "5.5.*",
+        "laravel/scout": "^4.0",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.4.0"
+        "laravelcollective/html": "^5.4.0",
+        "nesbot/carbon": "^1.22"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
