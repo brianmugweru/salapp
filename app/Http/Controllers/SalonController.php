@@ -18,7 +18,7 @@ class SalonController extends Controller
  
     public function __construct()
     {
-        $this->middleware('auth')->except(['get']);
+        $this->middleware('auth')->except(['get','search']);
     }
 
 
@@ -52,10 +52,6 @@ class SalonController extends Controller
      */
     public function store(Request $request)
     {
-        /* 
-         * DOES NOT REQUIRE REQUEST OBJECT BEING PASSED INTO THE PARAMETERS WHEN BEING USED
-         * return request();
-         */
         $this->validate(request(),[
 
             'name'=>'required',
@@ -66,9 +62,8 @@ class SalonController extends Controller
 
             'image'=>'required',
         ]);
-        return request();
 
-       Auth()->User()->addSalon(new Salon([
+        Auth()->User()->salons()->create([
 
             'name'=>$request->name,
 
@@ -76,15 +71,15 @@ class SalonController extends Controller
 
             'latitude'=>$request->latitude,
 
-            'opening_time'=>date('H:i:s', strtotime($request->opening_time)),
+            'opening_time'=>$request->opening_time,
 
-            'closing_time'=>date('H:i:s', strtotime($request->closing_time)),
+            'closing_time'=>$request->closing_time,
 
             'image'=>$request->file('image')->store('public/salons')
 
-        ]));
+        ]);
 
-        return redirect('/salon');
+        return redirect('/dashboard/salon');
         
     }
 
@@ -96,12 +91,12 @@ class SalonController extends Controller
      */
     public function show(Salon $salon)
     {
-        if(Gate::allows('view-salon', $salon))
+        if(auth()->user()->can('view-salon', $salon))
         {
             return view('salon.show')->withSalon($salon);
-        }else{
-            return redirect('/salon');
         }
+
+        return back();
     }
 
     /**
@@ -112,12 +107,12 @@ class SalonController extends Controller
      */
     public function edit(Salon $salon)
     {
-        if(Gate::allows('view-salon', $salon))
+        if(auth()->user()->can('edit-salon', $salon))
         {
             return view('salon.edit')->withSalon($salon);
-        }else{
-            return redirect('/salon');
         }
+
+        return back();
     }
 
     /**
@@ -129,23 +124,21 @@ class SalonController extends Controller
      */
     public function update(Request $request, Salon $salon)
     {
-        $salon = Salon::find($salon->id);
-
         if($request->name) $salon->name = $request->name;
 
         if($request->longitude) $salon->longitude = $request->longitude;
 
         if($request->latitude) $salon->latitude = $request->latitude;
 
-        if($request->opening_time) $salon->opening_time = date('H:i:s', strtotime($request->get('opening_time')));
+        if($request->opening_time) $salon->opening_time = $request->opening_time;
 
-        if($request->closing_time) $salon->closing_time = date('H:i:s', strtotime($request->get('closing_time')));
+        if($request->closing_time) $salon->closing_time = $request->closing_time;
 
         if($request->file('image')) $salon->image = $request->file('image')->store('public/salon');
 
         $salon->save();
 
-        return redirect('/salon');
+        return redirect('/dashboard/salon');
 
     }
 
@@ -173,13 +166,11 @@ class SalonController extends Controller
     {
         $salon = Salon::find($salon_id);
 
-        $user = auth()->user()->id;
-
         $salon->addRank();
 
         $like = new Like;
 
-        $like->user_id = $user_id;
+        $like->user_id = auth()->user->id;
 
         $like->salon_id = $salon_id;
 
@@ -187,5 +178,12 @@ class SalonController extends Controller
 
         return back;
 
+    }
+    public function search(Request $request)
+    {
+
+        $salons = Salon::search($request->get('salon'))->orderBy('created_at','DESC')->get();
+
+        return $salons;
     }
 }
