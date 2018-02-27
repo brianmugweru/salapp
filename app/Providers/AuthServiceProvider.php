@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Policies\SalonPolicy;
 use App\User;
 use App\Salon;
+
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy'
+        'App\Model' => 'App\Policies\ModelPolicy',
+        User::class => Salon::class
     ];
 
     /**
@@ -27,11 +30,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('view-salon', function(User $user, Salon $salon){
-            return $user->id === $salon->user_id;
-        }); 
-        Gate::define('edit-salon', function(User $user, Salon $salon){
-            return $user->id === $salon->user_id;
-        });
+        Gate::define('view-salon', 'App\Policies\SalonPolicy@view');
+        Gate::define('edit-salon', 'App\Policies\SalonPolicy@edit');
     }
 }
