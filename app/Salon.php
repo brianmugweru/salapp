@@ -4,12 +4,27 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
 class Salon extends Model
 {
-
     protected $fillable = [
         'name', 'longitude', 'latitude', 'opening_time', 'closing_time', 'image', 'user_id','rank'
     ];
+
+    protected $casts = [
+        'opening_time'=>'',
+        'closing_time'=>''
+    ];
+
+    public function setOpeningTimeAttribute($time)
+    {
+        $this->attributes['opening_time'] = Carbon::parse($time)->toTimeString();
+    }
+    public function setClosingTimeAttribute($time)
+    {
+        $this->attributes['closing_time'] = Carbon::parse($time)->toTimeString();
+    }
 
     public function styles()
     {
@@ -29,13 +44,16 @@ class Salon extends Model
     {
         return $this->hasMany(Like::class);
     }
-    public function addStyle($style)
+    public function bookings()
     {
-        $this->styles->create([]);
+        return $this->hasMany(Booking::class);
     }
-    public function addService($service)
+
+    public function scopeSearch($query ,$salon)
     {
+        return $query->where('name','LIKE', '%'.$salon.'%');
     }
+
     public function addRank()
     {
         $this->rank++;
@@ -45,19 +63,8 @@ class Salon extends Model
 
     public function reduceRank()
     {
-        // reduce rank according to scheduler after specific time;
+        $this->rank == 0 ? $this->rank = 0 : $this->rank--;
 
-        if($this->rank != 0)
-        {
-            $this->rank--;
-
-            $this->save();
-        }
-        else
-        {
-            $this->rank = 0;
-
-            $this->save();
-        }
+        $this->save();
     }
 }
