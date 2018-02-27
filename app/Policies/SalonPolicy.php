@@ -20,13 +20,17 @@ class SalonPolicy
         //
     }
 
-    public function update(User $user, Salon $salon)
+    public function edit(User $user, Salon $salon)
     {
-        return $user->id === $salon->user_id;
+        return $user->id === $salon->user_id ? true : false;
     }
 
     public function view(User $user, Salon $salon)
     {
-        return $user->id === $salon->user_id;
+        return $user->id === $salon->user_id ? true : false;
+    }
+    public function update(User $user, Salon $salon)
+    {
+        return $user->id === $salon->user_id ? true : false;
     }
 }
