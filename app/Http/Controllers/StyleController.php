@@ -30,7 +30,7 @@ class StyleController extends Controller
         return view('styles.style');
     }
 
-    public function getStyles($salon_id)
+    public function get($salon_id)
     {
         $styles = Style::where('salon_id', $salon_id)->get();
 
@@ -54,7 +54,7 @@ class StyleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Salon $salon)
+    public function store(Salon $salon, Request $request)
     {
         // validate request body and store to db
         
@@ -161,7 +161,7 @@ class StyleController extends Controller
         return response()->json('successfully deleted');
     }
 
-    public function get()
+    public function getAll()
     {
         $styles = Style::all();
 
