@@ -31,7 +31,7 @@ class EditStyle extends Component{
             name: this.state.name,
             time_taken: this.state.time_taken
         }
-        let uri = 'http://localhost:8000/style/'+this.props.params.styleid+'/update/';
+        let uri = 'http://localhost:8000/dashboard/style/'+this.props.params.styleid+'/update/';
         let styleuri = '/styles/'+this.props.params.salonid;
         axios.post(uri, style).then(response=>{
             this.props.history.push(styleuri);

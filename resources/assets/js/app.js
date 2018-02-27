@@ -31,11 +31,11 @@ import EditService from './services/EditService';
 if (document.getElementById('styles')) {
     render(
         <Router history={browserHistory}>
-            <Route path="/styles/:id" component={HomeStyles}>
+            <Route path="/dashboard/styles/:id" component={HomeStyles}>
                 <IndexRoute component={ViewStyles}/>
-                <Route path={"/styles/edit/:styleid/:salonid"} component={EditStyle} />
-                <Route path={"/styles/:id/add-style"} component={CreateStyle} />
-                <Route path={"/styles/:id/view-styles"} component={ViewStyles} />
+                <Route path={"/dashboard/styles/edit/:styleid/:salonid"} component={EditStyle} />
+                <Route path={"/dashboard/styles/:id/add-style"} component={CreateStyle} />
+                <Route path={"/dashboard/styles/:id/view-styles"} component={ViewStyles} />
             </Route>
         </Router>,
         document.getElementById('styles')

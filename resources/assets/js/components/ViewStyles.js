@@ -10,7 +10,7 @@ class ViewStyles extends Component {
     }
 
     componentDidMount(){
-        axios.get("http://localhost:8000/styles/"+this.props.params.id+"/get")
+        axios.get("http://localhost:8000/dashboard/styles/"+this.props.params.id+"/get")
             .then(response=>{
                 console.log(response.data);
                 this.setState({styles : response.data});
@@ -77,10 +77,10 @@ class TableRow extends Component{
         return(
             <tr>
                 <td>{this.props.style.id }</td>
-                <td><Handleimage link={`http://localhost:8000/${this.props.style.image}`}/></td>
+                <td><Handleimage link={`/${this.props.style.image}`}/></td>
                 <td>{this.props.style.name }</td>
                 <td>{this.props.style.time_taken }</td>
-                <td><Link to={"/styles/edit/"+this.props.style.id+"/"+this.props.params}>Edit</Link></td>
+                <td><Link to={"/dashboard/styles/edit/"+this.props.style.id+"/"+this.props.params}>Edit</Link></td>
                 <td>
                     <form onSubmit={this.handleSubmit}>
                         <input type="hidden" name="_method" value="PUT"/>

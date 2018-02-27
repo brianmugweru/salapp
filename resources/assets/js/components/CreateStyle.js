@@ -52,11 +52,11 @@ class CreateStyle extends Component {
         data.append('image', style.image);
         data.append('salon_id', style.salon_id);
 
-        let uri = "http://localhost:8000/style/";
+        let uri = "http://localhost:8000/dashboard/style/";
 
         axios.post(uri, data).then((response)=>{
             console.log(response.data);
-            browserHistory.push('/styles/'+this.props.params.id+"/");
+            browserHistory.push('/dashboard/styles/'+this.props.params.id+"/");
         });
     }
     render(){

@@ -8180,11 +8180,11 @@ var CreateStyle = function (_Component) {
             data.append('image', style.image);
             data.append('salon_id', style.salon_id);
 
-            var uri = "http://localhost:8000/style/";
+            var uri = "http://localhost:8000/dashboard/style/";
 
             __WEBPACK_IMPORTED_MODULE_3_axios___default.a.post(uri, data).then(function (response) {
                 console.log(response.data);
-                __WEBPACK_IMPORTED_MODULE_2_react_router__["browserHistory"].push('/styles/' + _this2.props.params.id + "/");
+                __WEBPACK_IMPORTED_MODULE_2_react_router__["browserHistory"].push('/dashboard/styles/' + _this2.props.params.id + "/");
             });
         }
     }, {
@@ -13730,7 +13730,7 @@ var ViewStyles = function (_Component) {
         value: function componentDidMount() {
             var _this2 = this;
 
-            axios.get("http://localhost:8000/styles/" + this.props.params.id + "/get").then(function (response) {
+            axios.get("http://localhost:8000/dashboard/styles/" + this.props.params.id + "/get").then(function (response) {
                 console.log(response.data);
                 _this2.setState({ styles: response.data });
             }).catch(function (err) {
@@ -13872,7 +13872,7 @@ var TableRow = function (_Component2) {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_2_react_router__["Link"],
-                        { to: "/styles/edit/" + this.props.style.id + "/" + this.props.params },
+                        { to: "/dashboard/styles/edit/" + this.props.style.id + "/" + this.props.params },
                         'Edit'
                     )
                 ),
@@ -14344,11 +14344,11 @@ if (document.getElementById('styles')) {
         { history: __WEBPACK_IMPORTED_MODULE_2_react_router__["browserHistory"] },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_2_react_router__["Route"],
-            { path: '/styles/:id', component: __WEBPACK_IMPORTED_MODULE_3__components_HomeStyles__["default"] },
+            { path: '/dashboard/styles/:id', component: __WEBPACK_IMPORTED_MODULE_3__components_HomeStyles__["default"] },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["IndexRoute"], { component: __WEBPACK_IMPORTED_MODULE_5__components_ViewStyles__["a" /* default */] }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["Route"], { path: "/styles/edit/:styleid/:salonid", component: __WEBPACK_IMPORTED_MODULE_6__components_EditStyle__["a" /* default */] }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["Route"], { path: "/styles/:id/add-style", component: __WEBPACK_IMPORTED_MODULE_4__components_CreateStyle__["default"] }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["Route"], { path: "/styles/:id/view-styles", component: __WEBPACK_IMPORTED_MODULE_5__components_ViewStyles__["a" /* default */] })
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["Route"], { path: "/dashboard/styles/edit/:styleid/:salonid", component: __WEBPACK_IMPORTED_MODULE_6__components_EditStyle__["a" /* default */] }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["Route"], { path: "/dashboard/styles/:id/add-style", component: __WEBPACK_IMPORTED_MODULE_4__components_CreateStyle__["default"] }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["Route"], { path: "/dashboard/styles/:id/view-styles", component: __WEBPACK_IMPORTED_MODULE_5__components_ViewStyles__["a" /* default */] })
         )
     ), document.getElementById('styles'));
 } else if (document.getElementById('services')) {
@@ -60254,7 +60254,7 @@ var RoutePage = function (_Component) {
                     ' ',
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_2_react_router__["Link"],
-                        { to: "/styles/" + this.props.params + "/view-styles" },
+                        { to: "/dashboard/styles/" + this.props.params },
                         'View Styles'
                     )
                 ),
@@ -60265,7 +60265,7 @@ var RoutePage = function (_Component) {
                     ' ',
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_2_react_router__["Link"],
-                        { to: "/styles/" + this.props.params + "/add-style" },
+                        { to: "/dashboard/styles/" + this.props.params + "/add-style" },
                         'Add Style'
                     )
                 ),
@@ -60357,7 +60357,7 @@ var EditStyle = function (_Component) {
                 name: this.state.name,
                 time_taken: this.state.time_taken
             };
-            var uri = 'http://localhost:8000/style/' + this.props.params.styleid + '/update/';
+            var uri = 'http://localhost:8000/dashboard/style/' + this.props.params.styleid + '/update/';
             var styleuri = '/styles/' + this.props.params.salonid;
             __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post(uri, style).then(function (response) {
                 _this3.props.history.push(styleuri);
