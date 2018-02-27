@@ -16,9 +16,9 @@
 
                     <div class="container">
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <h4>{{ $salon->name }}</h4>
-                                <img src="{{ Storage::url( $salon->image )}}" height="200" width="250" alt="found"/>
+                                <img src="{{ Storage::url( $salon->image )}}" height="200" width="100%" alt="found"/>
                             </div>
                             <div class="col-sm-6" style="margin-top:50px;">
                                 <p>Opening time:<strong>  {{ $salon->opening_time }}</strong></p>
@@ -33,13 +33,41 @@
                                         <p><a href="/salon/{{ $salon->id }}/like">Like Salon</a></p>
                                     @endif
                                 @endif
-                                    <a href="/salon/{{$salon->id}}/book"> book session </a>
+                                    <a data-toggle="modal" data-target="#book" href="#" class="btn btn-default btn-small"><i class="fa fa-check-square" style="color:#2a3da5"></i> Book</a>
                                 @endauth
 
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="book" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Book Session</h4>
+            </div>
+            <div class="modal-body" style="padding-left:25px;padding-right:25px;">
+                <form class="form-horizontal" action="/salon/{{$salon->id}}/book" method="post">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <select class="form-control" name="style" required>
+                            <option value="">Service/Style</option>
+                            @foreach ($salon->styles as $style)
+                                <option value="{{ $style->name }}">{{ $style->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="start">Start Time (24hrs System)</label>
+                        <input type="text" name="time" class="form-control" id="starttime" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Book</button>
+                </form>
             </div>
         </div>
     </div>
