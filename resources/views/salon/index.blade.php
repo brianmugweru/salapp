@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAi78hhiakcf_eT1sVJP0Vx3nHM1eI-TjI"></script>
 
+@section('content')
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAi78hhiakcf_eT1sVJP0Vx3nHM1eI-TjI"></script>
 <script type="text/javascript">
     function geocode(lat, lng, salon_id){
         var latlng = new google.maps.LatLng(lat, lng);
@@ -19,12 +21,11 @@
         });
     }
 </script>
-@section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard <span style="float:right"><a href="/salon/create">add salon</a></span></div>
+                <div class="panel-heading">Dashboard <span style="float:right"><a href="/dashboard/salon/create">add salon</a></span></div>
 
                 <div class="panel-body" style="clear:both;">
                     @if (session('status'))
@@ -57,7 +58,6 @@
                                     {!! Form::open([ 'method'=>'DELETE','url'=>['/dashboard/salon', $salon->id]]) !!}
                                         {!! Form::submit('Delete',['class'=>'btn btn-danger']) !!}
                                     {!! Form::close() !!}
-                                    <!--<a href="{{ URL::to('/salon/'. $salon->id) }}">delete</a>-->
                                 </td>
                             </tr>
                         @endforeach
