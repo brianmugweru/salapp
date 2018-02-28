@@ -2,10 +2,9 @@
 
 namespace App;
 
-//use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Like extends Model
+class Like extends Pivot
 {
     public $table = 'likes';
 
