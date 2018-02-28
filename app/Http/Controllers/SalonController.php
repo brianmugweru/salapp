@@ -124,22 +124,26 @@ class SalonController extends Controller
      */
     public function update(Request $request, Salon $salon)
     {
-        if($request->name) $salon->name = $request->name;
+        if(auth()->user()->can('update-salon', $salon))
+        {
+            if($request->name) $salon->name = $request->name;
 
-        if($request->longitude) $salon->longitude = $request->longitude;
+            if($request->longitude) $salon->longitude = $request->longitude;
 
-        if($request->latitude) $salon->latitude = $request->latitude;
+            if($request->latitude) $salon->latitude = $request->latitude;
 
-        if($request->opening_time) $salon->opening_time = $request->opening_time;
+            if($request->opening_time) $salon->opening_time = $request->opening_time;
 
-        if($request->closing_time) $salon->closing_time = $request->closing_time;
+            if($request->closing_time) $salon->closing_time = $request->closing_time;
 
-        if($request->file('image')) $salon->image = $request->file('image')->store('public/salon');
+            if($request->file('image')) $salon->image = $request->file('image')->store('public/salon');
 
-        $salon->save();
+            $salon->save();
 
-        return redirect('/dashboard/salon');
+            return redirect('/dashboard/salon');
+        }
 
+        return back();
     }
 
     /**
@@ -162,19 +166,13 @@ class SalonController extends Controller
         return view('single')->withSalon($salon);
     }
 
-    public function like($id)
+    public function like(Salon $salon)
     {
         $salon = Salon::find($salon_id);
 
         $salon->addRank();
 
-        $like = new Like;
-
-        $like->user_id = auth()->user->id;
-
-        $like->salon_id = $salon_id;
-
-        $like -> save();
+        Auth()->user()->salonLikes()->attach($salon_id);
 
         return back;
 
