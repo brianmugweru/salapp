@@ -32,5 +32,6 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('view-salon', 'App\Policies\SalonPolicy@view');
         Gate::define('edit-salon', 'App\Policies\SalonPolicy@edit');
+        Gate::define('update-salon', 'App\Policies\SalonPolicy@edit');
     }
 }
