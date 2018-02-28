@@ -18,7 +18,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/salon/{id}/', 'SalonController@get');
 
-Route::get('/salon/{id}/like/', 'LikeController@likeSalon');
+Route::get('/salon/{id}/like/', 'SalonController@like');
 
 Route::get('/salons/liked', 'LikeController@salons');
 
