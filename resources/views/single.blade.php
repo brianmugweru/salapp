@@ -26,14 +26,10 @@
                                 <p>latitude: <strong> {{ $salon->latitude }}</strong></p>
                                 <p>longitude: <strong> {{ $salon->longitude }}</strong></p>
                                 @auth
-                                @if (sizeof($salon->likes) > 0)
-                                    @if ($salon->likes[0]->user_id == auth()->user()->id and $salon->likes[0]->salon_id == $salon->id)
+                                        {{ auth()->user()->pivot }}
                                         <p><i class="fa fa-heart"></i>already liked</p>
-                                    @else
                                         <p><a href="/salon/{{ $salon->id }}/like">Like Salon</a></p>
-                                    @endif
-                                @endif
-                                    <a data-toggle="modal" data-target="#book" href="#" class="btn btn-default btn-small"><i class="fa fa-check-square" style="color:#2a3da5"></i> Book</a>
+                                        <a data-toggle="modal" data-target="#book" href="#" class="btn btn-default btn-small"><i class="fa fa-check-square" style="color:#2a3da5"></i> Book</a>
                                 @endauth
 
                             </div>
