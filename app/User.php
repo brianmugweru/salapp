@@ -32,6 +32,11 @@ class User extends Authenticatable
         return $this->hasMany(Salon::class);
     }
 
+    public function salonLikes()
+    {
+        return $this->belongsToMany(Salon::class,'likes');
+    }
+
     public static $rules = [
         'name' => 'required',
         'email'=>'required|email',
