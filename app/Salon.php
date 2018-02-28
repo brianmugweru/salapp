@@ -40,9 +40,9 @@ class Salon extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function likes()
+    public function users()
     {
-        return $this->hasMany(Like::class);
+        return $this->belongsToMany(User::class,'likes');
     }
     public function bookings()
     {
