@@ -37,7 +37,7 @@ class HomeController extends Controller
      public function index()
     {
         $salons = Salon::orderBy('rank','desc')
-            ->take(4)
+            /*->take(4)*/
             ->get();
 
         return view('welcome')->withSalons($salons);
