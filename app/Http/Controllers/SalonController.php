@@ -29,7 +29,7 @@ class SalonController extends Controller
      */
     public function index()
     {
-        $salons = Salon::where('user_id', \Auth::User()->id)->get();
+        $salons = Salon::where('user_id', \Auth::User()->id)->orderBy('name','DESC')->get();
 
         return view('salon.index',compact('salons'));
     }
