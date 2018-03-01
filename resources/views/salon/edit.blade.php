@@ -20,10 +20,11 @@
                             {{ method_field('PATCH') }}
                             <input type="text" class="form-control" name="name" placeholder="Name: {{ $salon->name }}"><br>
 
-                            <input type="text" class="form-control" name="longitude" placeholder="Longitude: {{ $salon->longitude }}"><br>
-                            <input type="text" class="form-control" name="latitude" placeholder="Latitude: {{ $salon->latitude }}"><br>
+                            <input type="hidden" id="map-lon" name="longitude" value="Longitude: {{ $salon->longitude }}">
+                            <input type="hidden" id="map-lat" name="latitude" value="Latitude: {{ $salon->latitude }}">
                             <input type="text" class="form-control" name="opening_time" placeholder="Opening Time: {{ $salon->opening_time }}"><br>
                             <input type="text" class="form-control" name="closing_time" placeholder="Closing Time: {{ $salon->closing_time }}"><br>
+                            <button type="button" class="btn btn-md" data-toggle="modal" data-target="#myModal"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;Select location for salon</button><br><br>
                             <input type="file" class="form-control" name="image"><br>
 
                             <input type="submit" name="submit" value="Update Salon" class="btn btn-success">
@@ -34,5 +35,10 @@
         </div>
     </div>
 </div>
+@include ('partials.map-picker');
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/jquery.timepicker.min.js') }}"></script>
+@include ('partials.timescript')
+@include ('partials.loc-picker')
 @endsection
 
