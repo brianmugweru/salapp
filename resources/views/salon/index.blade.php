@@ -13,9 +13,10 @@
         geocoder.geocode({'location': latlng}, function(results, status){
             if(status == google.maps.GeocoderStatus.OK){
                 if(results[0]) {
+                    console.log(results[0]);
                     document.getElementById("locate"+salon_id).innerHTML = results[0].formatted_address;
                 }else{
-                    document.write('quite imposibble');
+                    document.getElementById("locate"+salon_id).innerHTML = 'Hello, probably wrong coordinates dear';
                 }
             }
         });
