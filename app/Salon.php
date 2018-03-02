@@ -44,6 +44,10 @@ class Salon extends Model
     {
         return $this->belongsToMany(User::class,'likes');
     }
+    public function getImageAttribute($value){
+        $this->attributes['image'] = str_replace('public', 'storage', $value);
+        return $this->attributes['image'];
+    }
     public function bookings()
     {
         return $this->hasMany(Booking::class);
