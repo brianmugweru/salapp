@@ -18,7 +18,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <h4>{{ $salon->name }}</h4>
-                                <img src="{{ Storage::url( $salon->image )}}" height="200" width="100%" alt="found"/>
+                                <img src="/{{ $salon->image }}" height="200" width="100%" alt="found"/>
                             </div>
                             <div class="col-sm-6" style="margin-top:50px;">
                                 <p>Opening time:<strong>  {{ $salon->opening_time }}</strong></p>
