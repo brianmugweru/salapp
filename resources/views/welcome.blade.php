@@ -24,6 +24,7 @@
                     </div>
                     @endforeach
                 </div>
+                <div id="eachloop"></div>
             </div>
             <div class="col-sm-5">
                 <div id="map" style="height:500px;width:100%;background:#d3d3d3;"></div>
@@ -40,6 +41,7 @@
     var position = [];
     var mylat;
     var mylon;
+    var salon = {};
 
     navigator.geolocation.getCurrentPosition(showPosition);
     function showPosition(position){
@@ -88,7 +90,7 @@
                 }else{
                 }
             }
-            //getBounds();
+            getBounds();
             //window.location = 'location:8000/query?'+position.join('&');
             position.length = 0;
         });
@@ -105,12 +107,13 @@
         $.get('http://localhost:8000/?minlat='+areaBounds.North+'&maxlat='+areaBounds.South+'&minlng='+areaBounds.West+'&maxlng='+areaBounds.East, function(data, status){
             $('#eachloop').empty();
             $.each(data, function(index, salon) {
-                var item = '<div class="col-sm-6">'+
-                    '<a href="/salon/'+salon.id+'" onmouseout="hoverOut('+salon+')" onmouseover="hoverListener('+salon+')">'+
-                        '<img src="' + salon.image + '" width="100%" height="200"/>'+
-                        '<p style="text-align:left;">'+ salon.name +'</br>'+ salon.rank +'</p>'+
-                    '</a>'+
-                '</div>';
+                var item = 
+                    "<div class='col-sm-6'>"+
+                        "<a href='/salon/"+salon.id+"'  onmouseover='hoverListener("+JSON.stringify(salon)+")' onmouseout='hoverOut("+JSON.stringify(salon)+")'>"+
+                            "<img src='" + salon.image + "' width='100%' height='200'/>"+
+                            "<p style='text-align:left;'>"+ salon.name +"</br>"+ salon.rank +"</p>"+
+                        "</a>"+
+                    "</div>";
                 $('#eachloop').append(item);
             });
         });
