@@ -34,8 +34,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
+     public function index(Request $request)
     {
+        if($request->query()){
+            $salons =  Salon::whereBetween('latitude',array($request->query('maxlat'), $request->query('minlat')))
+                ->whereBetween('longitude', array($request->query('minlng'), $request->query('maxlng')))
+                ->get();
+
+            return $salons;
+        }
+
         $salons = Salon::orderBy('rank','desc')
             /*->take(4)*/
             ->get();
