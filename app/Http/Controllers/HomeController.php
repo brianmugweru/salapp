@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
 use App\Salon;
 
 use App\User;
@@ -35,13 +37,28 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function index(Request $request)
-    {
-        if($request->query()){
-            $salons =  Salon::whereBetween('latitude',array($request->query('maxlat'), $request->query('minlat')))
-                ->whereBetween('longitude', array($request->query('minlng'), $request->query('maxlng')))
+     {
+         /*
+          * GET THOSE IN BETWEEN MAP VIEW BOX THEN SORT ACCORDING TO DISTANCE FROM THE USER 
+          */
+         if($request->filled(['maxlat','minlat', 'user_lat', 'user_lng'])){
+            $salons = Salon::between(request(['maxlat','minlat', 'minlng', 'maxlng']))
+                ->distance(request(['user_lat','user_lng']))
+                ->get();
+        }
+
+        if($request->filled(['maxlat','minlat'])){
+            $salons = Salon::between(request(['maxlat','minlat', 'minlng', 'maxlng']))
                 ->get();
 
             return $salons;
+        }
+
+        if($request->filled(['user_lat', 'user_lng'])){
+            $salons = Salon::distance(request(['user_lat','user_lng']))
+                ->get();
+
+           return $salons;
         }
 
         $salons = Salon::orderBy('rank','desc')
