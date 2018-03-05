@@ -10,6 +10,7 @@
                 <input type="text" name="salon" placeholder="enter salon name"/>
                 <input type="submit" class="btn btn-primary" value="search" name="search">
             </form>
+            <button class="btn btn-primary" onClick=findClosest()>Search From My Current Location</button>
             </div>
         </div><br>
         <div class="row">
@@ -43,14 +44,28 @@
     var mylon;
     var salon = {};
 
-    navigator.geolocation.getCurrentPosition(showPosition);
-    function showPosition(position){
-        mylat = position.coords.latitude;
-        mylon = position.coords.longitude;
+    function findClosest(){
+        navigator.geolocation.getCurrentPosition(showPosition);
+        function showPosition(position){
+            mylat = position.coords.latitude;
+            mylng = position.coords.longitude;
 
-        console.log('mylat:'+mylat+',mylng:'+mylon);
+            var marker = new google.maps.Marker({
+                map:map,
+                position:new google.maps.LatLng(mylat, mylng)
+            });
+            marker.addListener('click', function(){
+                infoWindow.open(map, marker);
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: 'I\'m here'
+            });
+            $.get('http://localhost:8000/?user_lat='+mylat+'&user_lng='+mylng, function(data, status){
+                organizeData(data); 
+            });
+        }
     }
-    console.log('mylat:'+mylat+',mylng:'+mylon);
 
     function initMap(){
 
@@ -90,13 +105,18 @@
                 }else{
                 }
             }
-            getBounds();
+            //getBounds();
+            getBoundsWithCurrentPosition();
             //window.location = 'location:8000/query?'+position.join('&');
             position.length = 0;
         });
     }
 
-    function getBounds(){
+    /*navigator.geolocation.getCurrentPosition(showPosition);*/
+    function getBoundsWithCurrentPosition(){
+        navigator.geolocation.getCurrentPosition(getBounds);
+    }
+    function getBounds(position){
         var bounds = map.getBounds();
         var areaBounds = {
             North: bounds.getNorthEast().lat(),
@@ -104,18 +124,31 @@
             East: bounds.getNorthEast().lng(),
             West: bounds.getSouthWest().lng()
         }
-        $.get('http://localhost:8000/?minlat='+areaBounds.North+'&maxlat='+areaBounds.South+'&minlng='+areaBounds.West+'&maxlng='+areaBounds.East, function(data, status){
-            $('#eachloop').empty();
-            $.each(data, function(index, salon) {
-                var item = 
-                    "<div class='col-sm-6'>"+
-                        "<a href='/salon/"+salon.id+"'  onmouseover='hoverListener("+JSON.stringify(salon)+")' onmouseout='hoverOut("+JSON.stringify(salon)+")'>"+
-                            "<img src='" + salon.image + "' width='100%' height='200'/>"+
-                            "<p style='text-align:left;'>"+ salon.name +"</br>"+ salon.rank +"</p>"+
-                        "</a>"+
-                    "</div>";
-                $('#eachloop').append(item);
+        if(position)
+        {
+            $.get('http://localhost:8000/?minlat='+areaBounds.North+'&maxlat='+areaBounds.South+'&minlng='+areaBounds.West+'&maxlng='+areaBounds.East+'&user_lat='+position.coords.latitude+'&user_lng='+position.coords.longitude, function(data, status){
+                organizeData(data);
             });
+        }
+        else
+        {
+            $.get('http://localhost:8000/?minlat='+areaBounds.North+'&maxlat='+areaBounds.South+'&minlng='+areaBounds.West+'&maxlng='+areaBounds.East, function(data, status){
+                organizeData(data);
+            });
+        }
+    }
+
+    function organizeData(data){
+        $('#eachloop').empty();
+        $.each(data, function(index, salon) {
+            var item = 
+                "<div class='col-sm-6'>"+
+                    "<a href='/salon/"+salon.id+"'  onmouseover='hoverListener("+JSON.stringify(salon)+")' onmouseout='hoverOut("+JSON.stringify(salon)+")'>"+
+                        "<img src='" + salon.image + "' width='100%' height='200'/>"+
+                        "<p style='text-align:left;'>"+ salon.name +"</br>"+ salon.rank +"</p>"+
+                    "</a>"+
+                "</div>";
+            $('#eachloop').append(item);
         });
     }
 
